@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.chart.*?>
+<?import org.controlsfx.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neomccreations.micmap.ui.Controller">
+    <children>
+      <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="250.0" prefWidth="326.0">
+               <children>
+                  <VBox prefHeight="227.0" prefWidth="343.0" style="-fx-background-color: #DDD;" VBox.vgrow="ALWAYS">
+                     <children>
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS">
+                           <children>
+                              <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label prefHeight="25.0" text="Schematic:">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField fx:id="input" prefHeight="25.0" prefWidth="220.0" promptText="C:\Users\Steve\AppData\.minecraft\saves\city" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <tooltip>
+                                          <Tooltip text="The location of the schematic to transform" />
+                                       </tooltip>
+                                    </TextField>
+                                    <Button mnemonicParsing="false" onAction="#openExplorer" text="📂">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <Line endX="300.0" startX="-100.0" stroke="#ab9c9c">
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Line>
+                        <HBox VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label prefHeight="25.0" text="Block Model:">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="block" promptText="iron_ore">
+                                 <HBox.margin>
+                                    <Insets left="5.0" right="10.0" />
+                                 </HBox.margin>
+                                 <tooltip>
+                                    <Tooltip text="The block model that this micromodel will take the form of in-game" />
+                                 </tooltip>
+                              </TextField>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label prefHeight="25.0" text="Texture:">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="texture" promptText="iron_ore">
+                                 <tooltip>
+                                    <Tooltip text="The texture that will be repeated across the model. Example: &quot;iron_ore&quot;" />
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets left="5.0" right="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                        <BorderPane VBox.vgrow="ALWAYS">
+                           <right>
+                              <Button mnemonicParsing="false" onAction="#convert" text="Convert" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets />
+                                 </BorderPane.margin>
+                              </Button>
+                           </right>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding>
+                        </BorderPane>
+                     </children>
+                  </VBox>
+                  <Label fx:id="log" text="Click Convert to create a MicroMap!" />
+               </children>
+            </VBox>
+            <MaskerPane fx:id="mask" visible="false" />
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>
