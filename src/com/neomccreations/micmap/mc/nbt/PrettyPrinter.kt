@@ -95,7 +95,7 @@ class PrettyPrinter(val writer : PrintStream = System.out) : DataVisitor {
         fancyPrint("int[" + size + "]", tabbed = false, newlined = true)
     }
 
-    /** Prints the message or empty string provided with a saved tabbing and/or a newline */
+    /** Prints the message or hidden string provided with a saved tabbing and/or a newline */
     private fun fancyPrint(message: String, tabbed: Boolean, newlined: Boolean) {
 
         if (tabbed) repeat(indent) {writer.print("\t")}

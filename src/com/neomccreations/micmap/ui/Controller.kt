@@ -12,6 +12,7 @@ package com.neomccreations.micmap.ui
 
 import com.neomccreations.micmap.schematic.schematicFromFile
 import com.neomccreations.micmap.trans.VoxelSpaceToBlockModel
+import com.neomccreations.micmap.voxel.optimize.CullOptimization
 import com.neomccreations.micmap.voxel.voxelSpaceFromSchematic
 import javafx.application.Platform
 import javafx.event.ActionEvent
@@ -68,7 +69,7 @@ class Controller : Initializable {
             val schematicFile = File(input.text)
             val schem = schematicFromFile(schematicFile)
             val space = voxelSpaceFromSchematic(schem)
-            space.cullOptimize()
+            space.optimize(CullOptimization())
 
             val file = File(schematicFile.parentFile, block.text + ".json")
             if (!file.exists()) file.createNewFile()

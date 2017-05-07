@@ -10,9 +10,11 @@
 
 package com.neomccreations.micmap
 
+import com.neomccreations.micmap.coordutil.xyzToIndex
 import com.neomccreations.micmap.mc.nbt.*
 import com.neomccreations.micmap.schematic.schematicFromFile
 import com.neomccreations.micmap.trans.VoxelSpaceToBlockModel
+import com.neomccreations.micmap.voxel.optimize.CullOptimization
 import com.neomccreations.micmap.voxel.voxelSpaceFromSchematic
 import java.io.*
 import javax.swing.JFileChooser
@@ -35,7 +37,7 @@ fun actually_run(args: Array<String>) {
 
     val schem = schematicFromFile(File(schameticLocation))
     val space = voxelSpaceFromSchematic(schem)
-    space.cullOptimize()
+    space.optimize(CullOptimization())
     val file = File(outputLocation)
     if (!file.exists()) file.createNewFile()
     VoxelSpaceToBlockModel(space).write(file, block)
@@ -50,7 +52,7 @@ fun test_converter() {
 
     val space = voxelSpaceFromSchematic(schem)
 
-    space.cullOptimize()
+    space.optimize(CullOptimization())
 
     val file = File("C:/Users/Arceege/Test.txt")
     if (!file.exists()) file.createNewFile()
@@ -69,7 +71,7 @@ fun test_optimizer() {
 
     for (z in 0 until space.length) {
         for (x in 0 until space.width) {
-            val rawIndex = space.xyzToIndex(x, 10, z)
+            val rawIndex = xyzToIndex(x, 10, z, space.width, space.length)
 
             print(if (space.space[rawIndex].opaque) "■" else "□")
 
@@ -79,11 +81,11 @@ fun test_optimizer() {
 
     println()
 
-    space.cullOptimize()
+    space.optimize(CullOptimization())
 
     for (z in 0 until space.length) {
         for (x in 0 until space.width) {
-            val rawIndex = space.xyzToIndex(x, 10, z)
+            val rawIndex = xyzToIndex(x, 10, z, space.width, space.length)
 
             print(if (space.space[rawIndex].opaque) "■" else "□")
 

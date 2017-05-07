@@ -8,44 +8,45 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.neomccreations.micmap.voxel
+package com.neomccreations.micmap.voxel.optimize
 
 import com.neomccreations.micmap.coordutil.xyzToIndex
-import com.neomccreations.micmap.schematic.Schematic
-import com.neomccreations.micmap.voxel.optimize.Optimization
+import com.neomccreations.micmap.voxel.VoxelSpace
 
 /**
  * @author Falcinspire
- * @version Apr/29/2017 (8:32 PM)
+ * @version May/07/2017 (4:59 PM)
  */
 
-class VoxelSpace(val width : Short, val length : Short, val height : Short, val space : Array<Voxel>) {
+class CullOptimization : Optimization {
 
-    fun optimize(optimization : Optimization) {
-        optimization.optimize(this)
-    }
+    override fun optimize(space: VoxelSpace) {
 
-    fun forAll(operation : (x: Int, y: Int, z: Int, index: Int, voxel : Voxel) -> Unit) {
+        val width = space.width
+        val length = space.length
+        val height = space.height
+        val array = space.space
+
         for (y in 0 until height) {
             for (z in 0 until length) {
                 for (x in 0 until width) {
                     val rawIndex = xyzToIndex(x, y, z, width, length)
-                    operation(x, y, z, rawIndex, space[rawIndex])
+
+                    val voxel = array[rawIndex]
+                    if (voxel.opaque) {
+
+                        voxel.south = !((z + 1 < length) && array[xyzToIndex(x, y, z + 1, width, length)].opaque)
+                        voxel.north = !((z - 1 >= 0) && array[xyzToIndex(x, y, z - 1, width, length)].opaque)
+                        voxel.east = !((x + 1 < width) && array[xyzToIndex(x + 1, y, z, width, length)].opaque)
+                        voxel.west = !((x - 1 >= 0) && array[xyzToIndex(x - 1, y, z, width, length)].opaque)
+                        voxel.up = !((y + 1 < height) && array[xyzToIndex(x, y + 1, z, width, length)].opaque)
+                        voxel.down = !((y - 1 >= 0) && array[xyzToIndex(x, y - 1, z, width, length)].opaque)
+
+                    }
                 }
             }
         }
     }
+
+
 }
-
-//TODO maybe move this elsewhere
-fun voxelSpaceFromSchematic(schem : Schematic) : VoxelSpace {
-
-    //init the array with air voxels
-    val array = Array<Voxel>(
-            schem.width * schem.length * schem.height,
-            {index -> Voxel(schem.blocks[index])})
-
-    return VoxelSpace(schem.width, schem.length, schem.height, array)
-}
-
-    

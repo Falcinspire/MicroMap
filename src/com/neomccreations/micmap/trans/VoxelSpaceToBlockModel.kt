@@ -11,7 +11,8 @@
 package com.neomccreations.micmap.trans
 
 import com.google.gson.stream.JsonWriter
-import com.neomccreations.micmap.util.*
+import com.neomccreations.micmap.jsonutil.arrayAround
+import com.neomccreations.micmap.jsonutil.objectAround
 import com.neomccreations.micmap.voxel.VoxelSpace
 import java.io.File
 import java.io.FileOutputStream

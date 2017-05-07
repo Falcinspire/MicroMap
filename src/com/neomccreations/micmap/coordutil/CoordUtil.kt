@@ -8,43 +8,14 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.neomccreations.micmap.util
-
-import com.google.gson.stream.JsonReader
-import com.google.gson.stream.JsonWriter
+package com.neomccreations.micmap.coordutil
 
 /**
  * @author Falcinspire
- * @version May/05/2017 (10:24 PM)
+ * @version May/07/2017 (5:00 PM)
  */
 
-fun JsonWriter.objectAround(wrap : (writer : JsonWriter) -> Unit) {
-    this.beginObject()
-    wrap(this)
-    this.endObject()
+inline fun xyzToIndex(x : Int, y : Int, z : Int, width : Short, length : Short) : Int {
+    return y * width * length + z * width + x
 }
-
-fun JsonWriter.arrayAround(wrap : (writer : JsonWriter) -> Unit) {
-    this.beginArray()
-    wrap(this)
-    this.endArray()
-}
-
-fun JsonReader.parseArray(wrap : () -> Unit) {
-    this.beginArray()
-    while (this.hasNext())
-        wrap()
-    this.endArray()
-}
-
-fun JsonReader.forAllObjectMembers(wrap : (String) -> Unit) {
-    this.beginObject()
-    while (this.hasNext())
-        wrap(this.nextName())
-    this.endObject()
-}
-
-fun JsonReader.forAll(wrap : () -> Unit) {
-    while (this.hasNext())
-        wrap()
-}
+    

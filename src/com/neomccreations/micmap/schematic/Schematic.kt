@@ -12,6 +12,7 @@ package com.neomccreations.micmap.schematic
 
 import com.neomccreations.micmap.NibbleArray
 import com.neomccreations.micmap.ShortNibbleArray
+import com.neomccreations.micmap.coordutil.xyzToIndex
 import com.neomccreations.micmap.mc.nbt.BinaryReader
 import com.neomccreations.micmap.mc.nbt.CompoundData
 import com.neomccreations.micmap.mc.nbt.ListData
@@ -36,11 +37,11 @@ class Schematic(val width : Short,
                 val tileEntities : MutableList<CompoundData>) {
 
     fun block(x : Int, y : Int, z : Int) : Short {
-        return blocks[xyzToIndex(x, y, z)]
+        return blocks[xyzToIndex(x, y, z, width, length)]
     }
 
     fun block(x : Int, y : Int, z : Int, id : Short, data : Byte = 0) {
-        val index = xyzToIndex(x, y, z)
+        val index = xyzToIndex(x, y, z, width, length)
         blocks[index] = id
         blockData[index] = data
     }
@@ -49,18 +50,12 @@ class Schematic(val width : Short,
         for (y in 0 until height) {
             for (z in 0 until length) {
                 for (x in 0 until width) {
-                    val rawIndex = xyzToIndex(x, y, z)
+                    val rawIndex = xyzToIndex(x, y, z, width, length)
                     operation(x, y, z, rawIndex, blocks[rawIndex], blockData[rawIndex])
                 }
             }
         }
     }
-
-    //TODO repeated in VoxelSpace
-    inline fun xyzToIndex(x : Int, y : Int, z : Int) : Int {
-        return y * width * length + z * width + x
-    }
-
 }
 
 fun schematicFromFile(file : File) : Schematic {

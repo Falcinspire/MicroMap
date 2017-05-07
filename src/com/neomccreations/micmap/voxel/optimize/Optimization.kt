@@ -8,28 +8,17 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.neomccreations.micmap.voxel
+package com.neomccreations.micmap.voxel.optimize
+
+import com.neomccreations.micmap.voxel.VoxelSpace
 
 /**
  * @author Falcinspire
- * @version Apr/29/2017 (8:29 PM)
+ * @version May/07/2017 (4:58 PM)
  */
 
-data class Voxel(var id : Short = 0,
-                 var north : Boolean = true,
-                 var south : Boolean = true,
-                 var east : Boolean = true,
-                 var west : Boolean = true,
-                 var up : Boolean = true,
-                 var down : Boolean = true) {
+interface Optimization {
 
-    //If the block is visible in any way
-    val opaque
-        get() = (id != 0.toShort()) && visible
-
-    //If the block could be opaque, but all the faces are covered
-    val visible
-        get() = (north || south || east || west || up || down)
+    fun optimize(space : VoxelSpace)
 
 }
-    
